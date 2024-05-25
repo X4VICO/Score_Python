@@ -1,0 +1,5 @@
+ 1ST     90000   MGF
+ 2ND     56000   FYG
+ 3RD     18700   AGC
+ 4TH     02173   EBG
+ 5TH     00679   AVG
