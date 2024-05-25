@@ -1,33 +1,35 @@
-# SCRIPT QUE SE EJECUTA
-# invocación del script = $ python score_this.py 18700 “AGC” “willoom.txt”
+# SCRIPT EJECUTABLE
+from scorelib import Score # importamos librería donde se encuentran las funciones
+import sys # importamos "sys" para poder leer los parámetros introducidos
 
-from scorelib import Score # libreria principal donde se encuentran las funciones
-import sys # importamos esta libreria para poder leer los parametros introducidos a la hora de ejecutar el script
+# ________________________ argumentos ________________________
+# $ python score_this.py <puntuación> <iniciales> [archivo]
+#              [0]           [1]          [2]        [3]
+# ____________________________________________________________
 
-# ------verificación de argumentos------
-# en el caso de que no se introduzca la invocación del script correctamente, mostramos un ejemplo de uso
-if len(sys.argv) < 3:
-    print("Uso: $ python score_this.py <puntuación> <iniciales> [archivo]")
-    sys.exit(1) # cerramos el programa e indicamos con argumento 1 que ha sido a causa de un error en la ejecución
+# ___________________ verificación de ejecución ___________________
+if len(sys.argv) < 3: # comprobamos que se introduzcan como mínimo 2 parámetros
+    print("Uso: $ python score_this.py <puntuación> <iniciales> [archivo]") # si no se cumplen las condiciones necesarias, mostramos cuál sería la ejecución correcta del script
+    sys.exit(1) # seguidamente salimos del script con un código de salida 1, esto sirve para saber que se sale por algún error
 
-# ------verificación de puntos------
-# como solo queremos que los puntos contengan números, hacemos uso de try
-try:
-    points = int(sys.argv[1])
-except ValueError: # en el caso de que el valor introducido no sean números, mostramos el error
-    print("Error al registrar puntos. Deben ser números enteros.")
-    sys.exit(1) # cerramos el programa e indicamos con argumento 1 que ha sido a causa de un error en la ejecución
+# ___________________ verificación de parámetros ___________________
+# ----- verificación puntuación -----
+try: # hacemos uso del try para asegurarnos de que la puntuación introducida solo consta de números
+    points = int(sys.argv[1]) # guardamos los valores del argumento [1] en la variable "points"
+except ValueError: # si se introduce algún carácter que no sea número...
+    print("Error al registrar puntos. Deben ser números enteros.") # ... informamos del error...
+    sys.exit(1) # ... seguidamente salimos del script con un código de salida 1
 
-# ------verificación de nombre------
-# en el caso de que el nombre tenga una longitud diferente a 3 caracteres, mostramos el error
-name = sys.argv[2]
-if len(name) != 3:
-    print("Error al registrar créditos. Deben ser 3 caracteres.")
-    sys.exit(1) # cerramos el programa e indicamos con argumento 1 que ha sido a causa de un error en la ejecución
+# ----- verificación nombre -----
+name = sys.argv[2] # guardamos los valores del argumento [2] en la variable "name"
+if len(name) != 3: # si no se introduce un nombre con una longitud de 3 caracteres alfanuméricos...
+    print("Error al registrar créditos. Deben ser 3 caracteres.") # ... informamos del error...
+    sys.exit(1) # ... seguidamente salimos del script con un código de salida 1
 
-# ------verificación de archivo------
-# en el caso de que no se introduzca un tercer argumento indicando el nombre del archivo, se usará por defecto "score.txt"
-scorefile = sys.argv[3] if len(sys.argv) > 3 else "score.txt"
+# ----- verificación archivo -----
+# solo se guardará en "scorefile" el valor del argumento [3] si la longitud de argumentos es mayor a 3... 
+scorefile = sys.argv[3] if len(sys.argv) > 3 else "score.txt" # ... de no ser el caso, se guardará por defecto como "score.txt"
 
-score = Score(scorefile) # creamos un objeto "Score" con el nombre del archivo de puntuaciones
-score.add_score(points, name, scorefile) # llamamos a la función add_score que hay en el objeto "Score" con los valores de points y name
+# ___________________ añadir puntuación haciendo uso de "scorelib" ___________________
+score = Score(scorefile) # creamos una instancia "Score" con archivo "scorefile"
+score.add_score(points, name, scorefile) # pasamos los valores obtenidos a la función "add_score" que hay en la instancia "Score"
